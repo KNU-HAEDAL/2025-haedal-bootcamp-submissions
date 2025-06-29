@@ -21,7 +21,8 @@ jobs:
 
       - name: Fetch solved.ac list
         run: |
-          curl -s "https://solved.ac/api/v3/search/problem?query=s%40${{ steps.get_id.outputs.boj_id }}" \
+          # 한 번에 1,000개까지 불러오기 (page=1, limit=1000)
+          curl -s "https://solved.ac/api/v3/search/problem?query=s%40${{ steps.get_id.outputs.boj_id }}&page=1&limit=1000" \
             | jq '[.items[].problemId] | unique' > solved_ids.json
 
       - name: Verify required problems
