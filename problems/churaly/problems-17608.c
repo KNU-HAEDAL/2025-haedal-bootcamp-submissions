@@ -12,7 +12,7 @@ int main() {
     int h[100000] = {0};
     int count = 1;
     scanf("%d",&N);
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < N; i++)   
     {
         scanf("%d", &h[i]);
     }
