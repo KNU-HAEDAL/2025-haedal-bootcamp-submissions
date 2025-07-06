@@ -32,7 +32,7 @@ problems/
 
 
 ## 📌 PR 작성 규칙
-- **PR 제목**: `[준회원과제] BOJ_ID`  
+- **PR 제목**: `[준회원과제_본인이름] BOJ_ID `  
 - **PR 본문**:
   ```markdown
   ### 👤 BOJ 아이디
