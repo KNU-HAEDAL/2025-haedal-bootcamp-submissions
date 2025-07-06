@@ -19,19 +19,17 @@ jobs:
                     | head -n1)
           echo "boj_id=$BOJ_ID" >> $GITHUB_OUTPUT
 
-      - name: Fetch solved.ac list
-        run: |
-          # 한 번에 1,000개까지 불러오기 (page=1, limit=1000)
-          curl -s "https://solved.ac/api/v3/search/problem?query=s%40${{ steps.get_id.outputs.boj_id }}&page=1&limit=1000" \
-            | jq '[.items[].problemId] | unique' > solved_ids.json
-
       - name: Verify required problems
         run: |
-          required=( 10988 10872 10811 2003 10814 1152 10828 2164 )
+          user="${{ steps.get_id.outputs.boj_id }}"
+          required=(10988 10872 10811 2003 10814 1152 10828 2164)
           missing=()
+
           for pid in "${required[@]}"; do
-            if ! jq -e --argjson id "$pid" 'index($id)' solved_ids.json >/dev/null; then
-              missing+=($pid)
+            count=$(curl -s "https://solved.ac/api/v3/search/problem?query=s@${user}+id:${pid}" \
+                      | jq '.count')
+            if [ "$count" -eq 0 ]; then
+              missing+=("$pid")
             fi
           done
 
